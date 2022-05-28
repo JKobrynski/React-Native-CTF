@@ -5,6 +5,7 @@ import ButtonComponent from '../../components/button/ButtonComponent'
 import TextBoxComponent from '../../components/textBox/TextBoxComponent'
 import TextInputComponent from '../../components/textInput/TextInputComponent'
 import {styles} from './LoginScreen.styles'
+import Config from "react-native-config";
 
 const LoginScreen: React.FC<any> = () => {
     const loginValue = "admin"
@@ -14,7 +15,7 @@ const LoginScreen: React.FC<any> = () => {
     const [password, setPassword] = useState<string>('')
 
     const loginUser = (): void => {
-        if (login === loginValue && password === passwordValue) {
+        if (login === Config.LOGIN && password === Config.PASSWORD) {
             navigate('Home')
         }
     }
