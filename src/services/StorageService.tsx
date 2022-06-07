@@ -1,8 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MMKV } from 'react-native-mmkv'
+import Config from "react-native-config";
+
+const MMKVStorage = new MMKV({
+    id: 'ctf-app-storage',
+    encryptionKey: Config.ENCRYPTION_KEY
+})
 
 const storeData = async (key: string, value: string) => {
     try {
-        await AsyncStorage.setItem(key, value)
+        MMKVStorage.set(key, value)
     } catch (e) {
         errorMessage(`${e}`)
     }
@@ -11,7 +17,7 @@ const storeData = async (key: string, value: string) => {
 const storeDataObject = async (key: string, value: string[]) => {
     try {
         const jsonValue = JSON.stringify(value)
-        await AsyncStorage.setItem(key, jsonValue)
+        MMKVStorage.set(key, jsonValue)
     } catch (e) {
         errorMessage(`${e}`)
     }
@@ -19,7 +25,7 @@ const storeDataObject = async (key: string, value: string[]) => {
 
 const getData = async (key: string,) => {
     try {
-        const value = await AsyncStorage.getItem(key)
+        const value = MMKVStorage.getString(key)
         if (value !== null) {
             return value
         }
@@ -31,7 +37,7 @@ const getData = async (key: string,) => {
 
 const getDatabject = async (key: string,) => {
     try {
-        const jsonValue = await AsyncStorage.getItem(key)
+        const jsonValue = MMKVStorage.getString(key)
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
         errorMessage(`${e}`)
